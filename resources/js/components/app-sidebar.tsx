@@ -1,4 +1,3 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMainCategorized } from '@/components/nav-main-categorized';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
@@ -6,23 +5,15 @@ import { type NavCategory } from '@/types';
 import { Link } from '@inertiajs/react';
 import { usePermissions } from '@/hooks/usePermissions';
 import {
-    BookOpen,
-    Folder,
     LayoutGrid,
     Home,
     Map,
     Building,
     Users,
     Wrench,
-    DollarSign,
-    FileText,
     ArrowRightLeft,
-    UserCheck,
-    AlertTriangle,
     Settings,
-    CreditCard,
     ClipboardList,
-    Bell
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -53,12 +44,6 @@ const mainNavCategories: NavCategory[] = [
                 href: '/all-properties',
                 icon: Building,
                 permission: 'all-properties.index'
-            },
-            {
-                title: 'properties Insurances',
-                href: '/properties-info',
-                icon: Building,
-                permission: 'properties.index'
             },
             {
                 title: 'Units',
@@ -99,12 +84,6 @@ const mainNavCategories: NavCategory[] = [
                 permission: 'move-in.index'
             },
             {
-                title: 'Move Out',
-                href: '/move-out',
-                icon: ArrowRightLeft,
-                permission: 'move-out.index'
-            },
-            {
                 title: 'Tasks',
                 href: '/vendor-task-tracker',
                 icon: ClipboardList,
@@ -112,69 +91,6 @@ const mainNavCategories: NavCategory[] = [
             },
         ],
         permissions: ['move-in.index','move-out.index','vendor-task-tracker.index']
-    },
-    {
-        title: 'Financial',
-        icon: DollarSign,
-        items: [
-            {
-                title: 'Payments',
-                href: '/payments',
-                icon: CreditCard,
-                permission: 'payments.index'
-            },
-            {
-                title: 'Payment Plan',
-                href: '/payment-plans',
-                icon: CreditCard,
-                permission: 'payment-plans.index'
-            },
-        ],
-        permissions: ['payments.index','payment-plans.index']
-    },
-    {
-        title: 'Leasing',
-        icon: FileText,
-        items: [
-            {
-                title: 'Applications',
-                href: '/applications',
-                icon: FileText,
-                permission: 'applications.index'
-            },
-            {
-                title: 'Offers And Renewals',
-                href: '/offers_and_renewals',
-                icon: UserCheck,
-                permission: 'offers-and-renewals.index'
-            },
-            {
-                title: 'Notice And Evictions',
-                href: '/notice_and_evictions',
-                icon: AlertTriangle,
-                permission: 'notice-and-evictions.index'
-            },
-            {
-                title: 'Notices',
-                href: '/notices',
-                icon: Bell,
-                permission: 'notices.index'
-            },
-        ],
-        permissions: ['applications.index','offers-and-renewals.index','notice-and-evictions.index','notices.index']
-    },
-];
-
-const footerNavItems: NavCategory['items'] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
     },
 ];
 

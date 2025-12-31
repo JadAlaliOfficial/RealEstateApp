@@ -23,13 +23,7 @@ class DashboardController extends Controller
         $unitInfo = null;
         $tenants = [];
         $moveIns = [];
-        $moveOuts = [];
         $vendorTasks = [];
-        $payments = [];
-        $paymentPlans = [];
-        $applications = [];
-        $offersAndRenewals = [];
-        $noticesAndEvictions = [];
 
         // Load units if property is selected
         if ($request->has('property_id') && $request->property_id) {
@@ -41,13 +35,7 @@ class DashboardController extends Controller
             $unitInfo = $this->dashboardService->getUnitInfo((int)$request->unit_id);
             $tenants = $this->dashboardService->getAllTenantInfoByUnit((int)$request->unit_id);
             $moveIns = $this->dashboardService->getAllMoveInInfoByUnit((int)$request->unit_id);
-            $moveOuts = $this->dashboardService->getAllMoveOutInfoByUnit((int)$request->unit_id);
             $vendorTasks = $this->dashboardService->getAllVendorTaskInfoByUnit((int)$request->unit_id);
-            $payments = $this->dashboardService->getAllPaymentInfoByUnit((int)$request->unit_id);
-            $paymentPlans = $this->dashboardService->getAllPaymentPlanInfoByUnit((int)$request->unit_id);
-            $applications = $this->dashboardService->getAllApplicationInfoByUnit((int)$request->unit_id);
-            $offersAndRenewals = $this->dashboardService->getAllOffersAndRenewalsInfoByUnit((int)$request->unit_id);
-            $noticesAndEvictions = $this->dashboardService->getAllNoticesAndEvictionsInfoByUnit((int)$request->unit_id);
         }
 
         return Inertia::render('dashboard', [
@@ -56,13 +44,7 @@ class DashboardController extends Controller
             'unitInfo' => $unitInfo,
             'tenants' => $tenants,
             'moveIns' => $moveIns,
-            'moveOuts' => $moveOuts,
             'vendorTasks' => $vendorTasks,
-            'payments' => $payments,
-            'paymentPlans' => $paymentPlans,
-            'applications' => $applications,
-            'offersAndRenewals' => $offersAndRenewals,
-            'noticesAndEvictions' => $noticesAndEvictions,
             'selectedPropertyId' => $request->property_id ? (int)$request->property_id : null,
             'selectedUnitId' => $request->unit_id ? (int)$request->unit_id : null,
         ]);

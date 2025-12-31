@@ -25,10 +25,12 @@ return new class extends Migration
             $table->date('date_of_move_in_form_filled')->nullable();
             $table->enum('submitted_insurance', ['Yes', 'No'])->nullable();
             $table->date('date_of_insurance_expiration')->nullable();
+            $table->string('tenant_name')->nullable();
+            $table->date('last_notice_sent')->nullable();
             $table->boolean('is_archived')->default(false)->nullable(false);
+            $table->boolean('is_hidden')->default(false);
             $table->timestamps();
 
-            // Add indexes for better query performance
             $table->index('unit_id');
             $table->index('signed_lease');
             $table->index('move_in_date');

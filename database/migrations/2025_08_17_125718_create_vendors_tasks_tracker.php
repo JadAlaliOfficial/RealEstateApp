@@ -22,10 +22,10 @@ return new class extends Migration
             $table->date('task_ending_date')->nullable();
             $table->string('status')->nullable();
             $table->enum('urgent', ['Yes', 'No']);
+            $table->boolean('is_hidden')->default(false);
             $table->boolean('is_archived')->default(false)->nullable(false);
             $table->timestamps();
 
-            // Add indexes for better query performance
             $table->index('vendor_id');
             $table->index('unit_id');
             $table->index('task_submission_date');

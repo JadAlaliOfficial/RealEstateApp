@@ -14,14 +14,13 @@ return new class extends Migration
         Schema::create('vendors_info', function (Blueprint $table) {
             $table->id();
             $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('set null');
-            $table->string('vendor_name'); // Not nullable
-            $table->string('number')->nullable();
-            $table->string('email')->nullable();
-            $table->string('service_type')->nullable();
+            $table->string('vendor_name');
+            $table->json('number')->nullable();
+            $table->json('email')->nullable();
+            $table->json('service_type')->nullable();
             $table->boolean('is_archived')->default(false)->nullable(false);
             $table->timestamps();
-            
-            // Add index for better query performance
+
             $table->index('city_id');
         });
     }

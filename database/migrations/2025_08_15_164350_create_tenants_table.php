@@ -29,8 +29,7 @@ return new class extends Migration
             $table->string('assistance_company')->nullable();
             $table->boolean('is_archived')->default(false)->nullable(false);
             $table->timestamps();
-            
-            // Add index for better query performance
+
             $table->index('unit_id');
         });
     }

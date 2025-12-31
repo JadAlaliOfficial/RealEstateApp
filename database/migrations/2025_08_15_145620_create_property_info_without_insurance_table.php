@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('property_name');
             $table->boolean('is_archived')->default(false)->nullable(false);
             $table->timestamps();
-            
-            // Add indexes for better query performance
+
             $table->index('city_id');
         });
     }
