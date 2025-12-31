@@ -96,7 +96,6 @@ class UnitService
         $vacant = Unit::where('vacant', 'Yes')->count();
         $occupied = Unit::where('vacant', 'No')->count();
         $listed = Unit::where('listed', 'Yes')->count();
-        $totalApplications = Unit::sum('total_applications');
 
         $cityStats = Unit::with(['property.city'])
             ->get()
@@ -112,7 +111,6 @@ class UnitService
             'vacant' => $vacant,
             'occupied' => $occupied,
             'listed' => $listed,
-            'total_applications' => $totalApplications,
             'city_stats' => $cityStats,
         ];
     }

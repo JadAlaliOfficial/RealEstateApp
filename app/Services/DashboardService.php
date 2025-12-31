@@ -7,13 +7,7 @@ use App\Models\PropertyInfoWithoutInsurance;
 use App\Models\Unit;
 use App\Models\Tenant;
 use App\Models\MoveIn;
-use App\Models\MoveOut;
 use App\Models\VendorTaskTracker;
-use App\Models\Payment;
-use App\Models\PaymentPlan;
-use App\Models\Application;
-use App\Models\OffersAndRenewal;
-use App\Models\NoticeAndEviction;
 use Illuminate\Database\Eloquent\Collection;
 
 class DashboardService
@@ -62,7 +56,7 @@ class DashboardService
      */
     public function getUnitInfo(int $unitId): ?Unit
     {
-        $unit = Unit::with(['property.city', 'applications'])
+        $unit = Unit::with(['property.city'])
             ->find($unitId);
 
         if ($unit) {
@@ -93,12 +87,6 @@ class DashboardService
     {
         return Tenant::with([
             'unit.property.city',
-            'noticesAndEvictions' => function ($query) {
-                $query->orderBy('created_at', 'desc')->limit(5);
-            },
-            'offersAndRenewals' => function ($query) {
-                $query->orderBy('created_at', 'desc')->limit(5);
-            }
         ])
             ->where('unit_id', $unitId)
             ->orderBy('first_name')

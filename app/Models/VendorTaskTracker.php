@@ -218,40 +218,4 @@ class VendorTaskTracker extends Model
     {
         return $this->unit?->property?->property_name;
     }
-
-    /**
-     * Validation rules for the model
-     */
-    public static function validationRules(): array
-    {
-        return [
-            'task_submission_date' => 'required|date',
-            'vendor_id' => 'nullable|integer|exists:vendors_info,id',
-            'unit_id' => 'nullable|integer|exists:units,id',
-            'assigned_tasks' => 'required|string',
-            'any_scheduled_visits' => 'nullable|date',
-            'notes' => 'nullable|string',
-            'task_ending_date' => 'nullable|date|after_or_equal:task_submission_date',
-            'status' => 'nullable|string|max:255',
-            'urgent' => 'required|in:Yes,No',
-        ];
-    }
-
-    /**
-     * Validation rules for updating the model
-     */
-    public static function updateValidationRules($id = null): array
-    {
-        return [
-            'task_submission_date' => 'sometimes|required|date',
-            'vendor_id' => 'sometimes|nullable|integer|exists:vendors_info,id',
-            'unit_id' => 'sometimes|nullable|integer|exists:units,id',
-            'assigned_tasks' => 'sometimes|required|string',
-            'any_scheduled_visits' => 'sometimes|nullable|date',
-            'notes' => 'sometimes|nullable|string',
-            'task_ending_date' => 'sometimes|nullable|date|after_or_equal:task_submission_date',
-            'status' => 'sometimes|nullable|string|max:255',
-            'urgent' => 'sometimes|required|in:Yes,No',
-        ];
-    }
 }

@@ -75,26 +75,4 @@ class PropertyInfoWithoutInsurance extends Model
     {
         return $this->hasMany(Unit::class, 'property_id');
     }
-
-    /**
-     * Validation rules for the model
-     */
-    public static function validationRules(): array
-    {
-        return [
-            'city_id' => 'nullable|integer|exists:cities,id',
-            'property_name' => 'required|string|max:255|unique:property_info_without_insurance,property_name',
-        ];
-    }
-
-    /**
-     * Validation rules for updating the model
-     */
-    public static function updateValidationRules($id = null): array
-    {
-        return [
-            'city_id' => 'sometimes|nullable|integer|exists:cities,id',
-            'property_name' => 'sometimes|required|string|max:255|unique:property_info_without_insurance,property_name,' . $id,
-        ];
-    }
 }

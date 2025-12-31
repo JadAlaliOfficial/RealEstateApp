@@ -87,22 +87,6 @@ class Tenant extends Model
     }
 
     /**
-     * Get all notices and evictions for this tenant.
-     */
-    public function noticesAndEvictions(): HasMany
-    {
-        return $this->hasMany(NoticeAndEviction::class, 'tenant_id');
-    }
-
-    /**
-     * Get all offers and renewals for this tenant.
-     */
-    public function offersAndRenewals(): HasMany
-    {
-        return $this->hasMany(OffersAndRenewal::class, 'tenant_id');
-    }
-
-    /**
      * Accessor for full name
      */
     public function getFullNameAttribute(): string
@@ -142,51 +126,5 @@ class Tenant extends Model
         return $this->unit && $this->unit->property && $this->unit->property->city 
             ? $this->unit->property->city->city 
             : null;
-    }
-
-    /**
-     * Validation rules for the model
-     */
-    public static function validationRules(): array
-    {
-        return [
-            'unit_id' => 'nullable|integer|exists:units,id',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'street_address_line' => 'nullable|string|max:255',
-            'login_email' => 'nullable|email|max:255',
-            'alternate_email' => 'nullable|email|max:255',
-            'mobile' => 'nullable|string|max:255',
-            'emergency_phone' => 'nullable|string|max:255',
-            'cash_or_check' => 'nullable|in:Cash,Check',
-            'has_insurance' => 'nullable|in:Yes,No',
-            'sensitive_communication' => 'nullable|in:Yes,No',
-            'has_assistance' => 'nullable|in:Yes,No',
-            'assistance_amount' => 'nullable|numeric|min:0|max:999999.99',
-            'assistance_company' => 'nullable|string|max:255',
-        ];
-    }
-
-    /**
-     * Validation rules for updating the model
-     */
-    public static function updateValidationRules($id = null): array
-    {
-        return [
-            'unit_id' => 'sometimes|nullable|integer|exists:units,id',
-            'first_name' => 'sometimes|required|string|max:255',
-            'last_name' => 'sometimes|required|string|max:255',
-            'street_address_line' => 'sometimes|nullable|string|max:255',
-            'login_email' => 'sometimes|nullable|email|max:255',
-            'alternate_email' => 'sometimes|nullable|email|max:255',
-            'mobile' => 'sometimes|nullable|string|max:255',
-            'emergency_phone' => 'sometimes|nullable|string|max:255',
-            'cash_or_check' => 'sometimes|nullable|in:Cash,Check',
-            'has_insurance' => 'sometimes|nullable|in:Yes,No',
-            'sensitive_communication' => 'sometimes|nullable|in:Yes,No',
-            'has_assistance' => 'sometimes|nullable|in:Yes,No',
-            'assistance_amount' => 'sometimes|nullable|numeric|min:0|max:999999.99',
-            'assistance_company' => 'sometimes|nullable|string|max:255',
-        ];
     }
 }

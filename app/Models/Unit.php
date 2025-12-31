@@ -30,7 +30,6 @@ class Unit extends Model
         'insurance_expiration_date',
         'vacant',
         'listed',
-        'total_applications',
         'is_archived',
     ];
 
@@ -41,7 +40,6 @@ class Unit extends Model
         'monthly_rent' => 'decimal:2',
         'count_beds' => 'decimal:1',
         'count_baths' => 'decimal:1',
-        'total_applications' => 'integer',
         'is_archived' => 'boolean',
         'property_id' => 'integer',
     ];
@@ -90,7 +88,7 @@ class Unit extends Model
         $this->tenants()->withArchived()->where('is_archived', false)->each(function ($tenant) {
             $tenant->archive();
         });
-        
+
         return $this->update(['is_archived' => true]);
     }
 
@@ -103,14 +101,6 @@ class Unit extends Model
     }
 
     /**
-     * Get all applications for this unit.
-     */
-    public function applications(): HasMany
-    {
-        return $this->hasMany(Application::class, 'unit_id');
-    }
-
-    /**
      * Get all tenants for this unit.
      */
     public function tenants(): HasMany
@@ -118,13 +108,6 @@ class Unit extends Model
         return $this->hasMany(\App\Models\Tenant::class, 'unit_id');
     }
 
-    /**
-     * Get all move-outs for this unit.
-     */
-    public function moveOuts(): HasMany
-    {
-        return $this->hasMany(MoveOut::class, 'unit_id');
-    }
 
     /**
      * Calculate computed fields for the unit
@@ -136,37 +119,6 @@ class Unit extends Model
 
         // Calculate Listed - vacant units are typically listed
         $this->listed = $this->vacant === 'Yes' ? 'Yes' : 'No';
-
-        // Calculate Total Applications - count applications for this unit
-        if ($this->exists && $this->listed === 'Yes') {
-            $this->total_applications = $this->applications()->where('is_archived', false)->count();
-        } else {
-            $this->total_applications = 0;
-        }
-    }
-
-    /**
-     * Static method to update all units' application counts
-     */
-    public static function updateAllApplicationCounts()
-    {
-        $units = static::withArchived()->get();
-        foreach ($units as $unit) {
-            $unit->calculateFields();
-            $unit->saveQuietly(); // Use saveQuietly to avoid triggering boot again
-        }
-    }
-
-    /**
-     * Method to update application count for specific unit by ID
-     */
-    public static function updateApplicationCountForUnit($unitId)
-    {
-        $unit = static::withArchived()->find($unitId);
-        if ($unit) {
-            $unit->calculateFields();
-            $unit->saveQuietly();
-        }
     }
 
     /**
@@ -175,53 +127,5 @@ class Unit extends Model
     public function getFormattedMonthlyRentAttribute(): string
     {
         return $this->monthly_rent ? '$' . number_format($this->monthly_rent, 2) : 'N/A';
-    }
-
-    /**
-     * Validation rules for the model
-     */
-    public static function validationRules(): array
-    {
-        return [
-            'property_id' => 'nullable|integer|exists:property_info_without_insurance,id',
-            'unit_name' => 'required|string|max:255',
-            'tenants' => 'nullable|string|max:255',
-            'lease_start' => 'nullable|date',
-            'lease_end' => 'nullable|date|after_or_equal:lease_start',
-            'count_beds' => 'nullable|numeric|min:0|max:99.9',
-            'count_baths' => 'nullable|numeric|min:0|max:99.9',
-            'lease_status' => 'nullable|string|max:255',
-            'is_new_lease' => 'nullable|in:Yes,No',
-            'monthly_rent' => 'nullable|numeric|min:0|max:999999999999.99',
-            'recurring_transaction' => 'nullable|string|max:255',
-            'utility_status' => 'nullable|string|max:255',
-            'account_number' => 'nullable|string|max:255',
-            'insurance' => 'nullable|in:Yes,No',
-            'insurance_expiration_date' => 'nullable|date',
-        ];
-    }
-
-    /**
-     * Validation rules for updating the model
-     */
-    public static function updateValidationRules($id = null): array
-    {
-        return [
-            'property_id' => 'sometimes|nullable|integer|exists:property_info_without_insurance,id',
-            'unit_name' => 'sometimes|required|string|max:255',
-            'tenants' => 'sometimes|nullable|string|max:255',
-            'lease_start' => 'sometimes|nullable|date',
-            'lease_end' => 'sometimes|nullable|date|after_or_equal:lease_start',
-            'count_beds' => 'sometimes|nullable|numeric|min:0|max:99.9',
-            'count_baths' => 'sometimes|nullable|numeric|min:0|max:99.9',
-            'lease_status' => 'sometimes|nullable|string|max:255',
-            'is_new_lease' => 'sometimes|nullable|in:Yes,No',
-            'monthly_rent' => 'sometimes|nullable|numeric|min:0|max:999999999999.99',
-            'recurring_transaction' => 'sometimes|nullable|string|max:255',
-            'utility_status' => 'sometimes|nullable|string|max:255',
-            'account_number' => 'sometimes|nullable|string|max:255',
-            'insurance' => 'sometimes|nullable|in:Yes,No',
-            'insurance_expiration_date' => 'sometimes|nullable|date',
-        ];
     }
 }

@@ -7,7 +7,7 @@ export default function AppLogo() {
                 <AppLogoIcon className="size-15 fill-current text-sidebar-primary" />
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">
-        <span className="mb-0.5 truncate font-semibold leading-none">PNE RE</span>
+        <span className="mb-0.5 truncate font-semibold leading-none">Company Name</span>
     </div>
         </>
     );
